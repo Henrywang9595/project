@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>商品列表</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" type="text/css" href="../static/main/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../static/main/css/animate.css">
+	<link rel="stylesheet" type="text/css" href="../static/main/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="../static/main/css/bootstrap-select.min.css">
+	<link rel="stylesheet" type="text/css" href="../static/main/css/awesome-bootstrap-checkbox.css">
+	<link rel="stylesheet" type="text/css" href="../static/main/css/select2.css">
+	<link rel="stylesheet" type="text/css" href="../static/main/css/style.css">
+	<link rel="stylesheet" type="text/css" href="../static/main/css/theme.css">
+	<link rel="stylesheet" type="text/css" href="../static/page.css">
+
+	<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../static/main/js/Chart.min.js"></script>
+	<script type="text/javascript" src="../static/main/js/bootstrap-select.min.js"></script>
+	<script type="text/javascript" src="../static/main/js/main.js"></script>
+	<script type="text/javascript" src="../static/main/js/index.js"></script>
+	<script type="text/javascript" src="../static/page.js"></script>
+	<script type="text/javascript" src="../static/Convert_Pinyin.js"></script>
+	<script type="text/javascript" src="../static/jquery.form.js"></script>
+	<style type="text/css">
+		.item:hover{
+			background: RGBA(218, 220, 221, 1);
+		}
+		body{
+			padding: 0px!important;
+			background: RGBA(246, 246, 246, 1);
+		}
+		* {
+			padding: 0;
+			margin: 0;
+			font-family: "微软雅黑";
+			font-size: 14px;
+		}
+
+		ul,
+		li {
+			list-style: none;
+		}
+
+		a {
+			text-decoration: none;
+			color: black;
+		}
+
+		.box {
+			width: 100%;
+			height: 400px;
+			margin: 20px auto;
+			overflow: hidden;
+			position: relative;
+		}
+
+		.box-1 ul {}
+
+		.box-1 ul li {
+			width: 100%;
+			height: 400px;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.box-1 ul li img {
+			display: block;
+			width: 100%;
+			height: 400px;
+		}
+
+		.box-1 ul li h2 {
+			position: absolute;
+			left: 0;
+			bottom: 0;
+			height: 40px;
+			width: 300px;
+			background: rgba(125, 125, 120, .4);
+			text-indent: 2em;
+			padding-right: 500px;
+			font-size: 15px;
+			line-height: 40px;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+			font-weight: normal;
+			color: ghostwhite
+		}
+
+		.box-2 {
+			position: absolute;
+			right: 10px;
+			bottom: 14px;
+		}
+
+		.box-2 ul li {
+			float: left;
+			width: 12px;
+			height: 12px;
+			overflow: hidden;
+			margin: 0 5px;
+			border-radius: 50%;
+			background: rgba(0, 0, 0, 0.5);
+			text-indent: 100px;
+			cursor: pointer;
+		}
+
+		.box-2 ul .on {
+			background: rgba(255, 255, 255, 0.6);
+		}
+
+		.box-3 span {
+			position: absolute;
+			color: white;
+			background: rgba(125, 125, 120, .3);
+			width: 50px;
+			height: 80px;
+			top: 50%;
+			font-family: "宋体";
+			line-height: 80px;
+			font-size: 60px;
+			margin-top: -40px;
+			text-align: center;
+			cursor: pointer;
+		}
+
+		.box-3 .prev {
+			left: 10px;
+		}
+
+		.box-3 .next {
+			right: 10px;
+		}
+
+		.box-3 span::selection {
+			background: transparent;
+		}
+
+		.box-3 span:hover {
+			background: rgba(125, 125, 120, .8);
+		}
+	</style>
+</head>
+<body>
+
+	<div class="container-fluid" style="display: none;">
+
+		<div class="box"  style="background: white">
+			<div class="box-1">
+				<ul id="lunbotu">
+
+				</ul>
+			</div>
+			<div class="box-2">
+				<ul>
+
+				</ul>
+			</div>
+			<div class="box-3">
+				<span class="prev"> < </span>
+				<span class="next"> > </span>
+			</div>
+		</div>
+
+		
+	</div>
+
+	<div style="width: 100%;margin-left: auto;margin-right: auto;overflow: hidden;clear: both;padding-bottom: 40px;background: white; " id="dianpulist">
+		{% include 'nav.html' %}
+		<p id="name" style="line-height: 40px;background: #FD9626;color:white;;padding-left: 15px">商家列表</p>
+
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function() {
+			function $(param) {
+				if(arguments[1] == true) {
+					return document.querySelectorAll(param);
+				} else {
+					return document.querySelector(param);
+				}
+			}
+			var $box = $(".box");
+			var $box1 = $(".box-1 ul li", true);
+			var $box2 = $(".box-2 ul");
+			var $box3 = $(".box-3");
+			var $length = $box1.length;
+
+			var str = "";
+			for(var i = 0; i < $length; i++) {
+				if(i == 0) {
+					str += "<li class='on'>" + (i + 1) + "</li>";
+				} else {
+					str += "<li>" + (i + 1) + "</li>";
+				}
+			}
+			$box2.innerHTML = str;
+
+			var current = 0;
+
+			var timer;
+			timer = setInterval(go, 3000);
+
+			function go() {
+				for(var j = 0; j < $length; j++) {
+					$box1[j].style.display = "none";
+					$box2.children[j].className = "";
+				}
+				if($length == current) {
+					current = 0;
+				}
+				$box1[current].style.display = "block";
+				$box2.children[current].className = "on";
+				current++;
+			}
+
+			for(var k = 0; k < $length; k++) {
+				$box1[k].onmouseover = function() {
+					clearInterval(timer);
+				}
+				$box1[k].onmouseout = function() {
+					timer = setInterval(go, 1000);
+				}
+			}
+			for(var p = 0; p < $box3.children.length; p++) {
+				$box3.children[p].onmouseover = function() {
+					clearInterval(timer);
+				};
+				$box3.children[p].onmouseout = function() {
+					timer = setInterval(go, 1000);
+				}
+			}
+
+			for(var u = 0; u < $length; u++) {
+				$box2.children[u].index = u;
+				$box2.children[u].onmouseover = function() {
+					clearInterval(timer);
+					for(var j = 0; j < $length; j++) {
+						$box1[j].style.display = "none";
+						$box2.children[j].className = "";
+					}
+					this.className = "on";
+					$box1[this.index].style.display = "block";
+					current = this.index + 1;
+				}
+				$box2.children[u].onmouseout = function() {
+					timer = setInterval(go, 1000);
+				}
+			}
+
+			$box3.children[0].onclick = function() {
+				back();
+			}
+			$box3.children[1].onclick = function() {
+				go();
+			}
+
+			function back() {
+				for(var j = 0; j < $length; j++) {
+					$box1[j].style.display = "none";
+					$box2.children[j].className = "";
+				}
+				if(current == 0) {
+					current = $length;
+				}
+				$box1[current - 1].style.display = "block";
+				$box2.children[current - 1].className = "on";
+				current--;
+			}
+		}
+		var dianming = ''
+
+		var allshangping = []
+
+		$.get('selectAllDianPu',{},function(data){
+			var list = data.data
+			for(var i in list){
+				var dic = list[i];
+
+				if (i==window.localStorage.getItem('aa')) {
+					$('#name').text(dic["DianPuMing"])
+					dianming=dic["DianPuMing"]
+					$.get('selectAllShangPin',{},function(data){
+						var list = data.data
+						allshangping=list
+						for(var i in list){
+							var dic = list[i];
+
+							if (dic["SuoShuShangDian"]!=dianming) {
+								continue
+							}
+
+
+							$('#dianpulist').append('<div style="float: left;width: 25%;padding: 10px" class="item" id="'+dic['id']+'">'+
+								'<div style="height: 200px">'+
+								'	<img src="'+dic["TuPian"]+'" style="width: 100%;height: 150px">'+
+								'	<p style="line-height: 50px">'+dic["ShangPinMing"]+'<span>【'+dic["LeiXing"]+'】</span></p>'+
+								'</div>'+
+								'</div>')
+						}
+						$('.item').click(function(){
+							var tdic = {}
+							for(var j =0;j<allshangping.length;j++){
+								if (allshangping[j]["id"]==$(this).attr('id')) {
+									tdic=allshangping[j]
+								}
+							}
+							tdic["wid"]=tdic["id"]
+							tdic["LiuLanRen"]=window.localStorage.nowname?window.localStorage.nowname:'游客'
+							tdic["LiuLanShiJian"]=getnowdate()
+							delete tdic["id"]
+
+							$.post('/addLiuLan',tdic,function(){})
+
+
+							window.localStorage.setItem('bb',$(this).attr('id'))
+						// alert(window.localStorage.getItem('aa'))
+						location.href="shangpingxiangqing.html"
+					})
+
+					})
+				}
+				// 		$('#dianpulist').append('<div style="float: left;width: 25%;padding: 10px" class="item" id="'+i+'">'+
+				// 	'<div style="height: 200px">'+
+				// 	'	<img src="https://ss2.bdstatic.com/6Ot1bjeh1BF3odCf/it/u=191769974,1312808987&fm=74&app=80&f=PNG&size=f121,121?sec=1880279984&t=21704654250b0a057e61ecae54678f0c" style="width: 100%;height: 150px">'+
+				// 	'	<p style="line-height: 50px">'+dic["DianPuMing"]+'<span>【'+dic["leixing"]+'】</span></p>'+
+				// 	'</div>'+
+				// '</div>')
+			}
+
+		})
+		$.get('selectAlllunbotu', {}, function(data) {
+			for(var i = 0; i < data.data.length; i++) {
+				var adic = data.data[i]
+					//
+					$('#lunbotu').append('<li>' +
+						'<img onclick="window.open(\''+adic["JianJie"]+'\')" src="'+adic["TuPian"]+'" alt="'+adic["LianJie"]+'"></img>' +
+						'<h2>'+adic["LianJie"]+'</h2>' +
+						'</li>')
+					//
+					//					$('#index').append('<li>' + (i + 1) + '</li>')
+				}
+			})
+
+
+		function getnowdate(){
+			var today = new Date();
+
+			var month = today.getMonth() + 1;
+
+			month = month < 10 ? '0'+month : month;
+
+			var day = today.getDate() < 10 ? '0'+today.getDate() : today.getDate();
+
+			var hours = today.getHours() < 10 ? '0'+today.getHours() : today.getHours();
+
+			var mins = today.getMinutes() < 10 ? '0'+today.getMinutes() : today.getMinutes();
+
+			var secs = today.getSeconds() < 10 ? '0'+today.getSeconds() : today.getSeconds();
+
+			
+
+			var now1 = today.getFullYear() + '/' + month + '/' + day;
+
+			var now1 = today.getFullYear() + '/' + month + '/' + day + " " + hours + ":" + mins + ":" + secs ;
+		}
+	</script>
+</body>
+</html>

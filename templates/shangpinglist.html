@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>商铺列表</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
+
+		<link rel="stylesheet" type="text/css" href="../static/main/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../static/main/css/animate.css">
+		<link rel="stylesheet" type="text/css" href="../static/main/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../static/main/css/bootstrap-select.min.css">
+		<link rel="stylesheet" type="text/css" href="../static/main/css/awesome-bootstrap-checkbox.css">
+		<link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../static/main/css/select2.css">
+		<link rel="stylesheet" type="text/css" href="../static/main/css/style.css">
+		<link rel="stylesheet" type="text/css" href="../static/main/css/theme.css">
+		<link rel="stylesheet" type="text/css" href="../static/page.css">
+
+		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../static/main/js/Chart.min.js"></script>
+		<script type="text/javascript" src="../static/main/js/bootstrap-select.min.js"></script>
+		<script type="text/javascript" src="../static/main/js/main.js"></script>
+		<script type="text/javascript" src="../static/main/js/index.js"></script>
+		<script type="text/javascript" src="../static/page.js"></script>
+		<script type="text/javascript" src="../static/Convert_Pinyin.js"></script>
+		<script type="text/javascript" src="http://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+
+		<script type="text/javascript" src="../static/jquery.form.js"></script>
+		<style type="text/css">
+			#datatable_xs {
+				text-align: center;
+			}
+			
+			th {
+				text-align: center;
+			}
+			
+			.alert {
+				display: none;
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				min-width: 300px;
+				max-width: 600px;
+				transform: translate(-50%, -50%);
+				z-index: 99999;
+				text-align: center;
+				padding: 15px;
+				border-radius: 3px;
+			}
+			
+			.alert-success {
+				color: #3c763d;
+				background-color: #dff0d8;
+				border-color: #d6e9c6;
+			}
+			
+			.alert-info {
+				color: #31708f;
+				background-color: #d9edf7;
+				border-color: #bce8f1;
+			}
+			
+			.alert-warning {
+				color: #8a6d3b;
+				background-color: #fcf8e3;
+				border-color: #faebcc;
+			}
+			
+			.alert-danger {
+				color: #a94442;
+				background-color: #f2dede;
+				border-color: #ebccd1;
+			}
+			
+			td {
+				text-align: center!important;
+				vertical-align: middle!important;
+			}
+			
+			.dataTables_length {
+				display: none!important;
+			}
+		</style>
+
+	</head>
+
+	<body class="flat-blue sidebar-collapse">
+		<div class="alert"></div>
+
+		<div class="sidebar">
+			<div class="menu-control toggle-sidebar">
+				<a class="navbar-brand" href="#"><i class="fa fa-bar-chart"></i> 商品列表</a>
+				<i class="fa fa-bars navicon"></i>
+			</div>
+			{% include 'public_left.html' %}
+
+		</div>
+
+		<div class="content-container wrap">
+			<nav class="navbar navbar-default">
+				<div>
+
+					<!-- Collect the nav links, forms, and other content for toggling -->
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+							<a class="navbar-brand" href="#"><i class="fa fa-bar-chart"></i> 商品列表</a>
+						</div>
+
+						{% include 'public_selfCenter.html' %}
+
+					</div>
+					<!-- /.navbar-collapse -->
+				</div>
+				<!-- /.container-fluid -->
+			</nav>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-xs-12">
+						<span class="page-title red"><h2>商品列表</h2></span>
+					</div>
+					<button id="tianjiadianbu" class="btn btn-primary btn-sm">
+					添加商品
+				</button>
+					<button id="tianjiadianbu2" style="display: none" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addUserModal">
+					展示弹窗
+				</button>
+				</div>
+
+				<div class="row">
+					<table class="table display" id="datatable_xs" style="border: 1px solid RGBA(62, 70, 81, 1)">
+						<thead>
+							<tr id="tou">
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<!-- 模态框示例（Modal） -->
+		<div class="form-horizontal" role="form" id="form_data" style="margin: 20px;">
+			<div class="modal fadein" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+							<h4 class="modal-title" id="myModalLabel">
+							商品信息
+						</h4>
+						</div>
+						<!-- 商品名、价格、简介、图片、类型、数量 -->
+						<div class="modal-body">
+							<form class="form-horizontal" id="addDianPu" role="form" action="addDianPu">
+								<div class="form-group">
+									<label for="user_id" class="col-sm-3 control-label">商品名</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" id="ShangPinMing" name="ShangPinMing" placeholder="请输入商品名">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="lastname" class="col-sm-3 control-label">价格</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" name="JiaGe" value="" id="JiaGe" placeholder="价格">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="lastname" class="col-sm-3 control-label">简介</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" name="JianJie" value="" id="JianJie" placeholder="简介">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="lastname" class="col-sm-3 control-label">数量</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" name="ShuLiang" value="" id="ShuLiang" placeholder="数量">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="lastname" class="col-sm-3 control-label">类型</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" name="LeiXing" value="" id="LeiXing" placeholder="类型">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="lastname" class="col-sm-3 control-label">所属商店</label>
+									<div class="col-sm-9">
+										<select name="SuoShuShangDian" id="SuoShuShangDian"  class="form-control" ></select>
+									
+									</div>
+								</div>
+								
+								<input type="text" name="id" style="display: none" id="id" class="edit" />
+								<div class="form-group">
+									<label for="lastname" class="col-sm-3 control-label">图片</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" name="TuPian" value="" id="ZhaoPai" placeholder="图片" style="display: none">
+										<input type="file" class="form-control" name="icon" value="" id="ZhaoPaixuan" placeholder="图片">
+
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button id="guanbi" type="button" class="btn btn-default" data-dismiss="modal">关闭
+						</button>
+							<button type="button" id="tijiao" class="btn btn-primary">
+							提交
+						</button><span id="tip"> </span>
+						</div>
+					</div>
+					<!-- /.modal-content -->
+				</div>
+				<!-- /.modal -->
+			</div>
+		</div>
+
+		<footer class="footer">
+			<span><i class="fa fa-copyright"></i> 系统 </span>
+		</footer>
+		<script type="application/javascript">
+			loadIndex(2)
+			$.get('selectAllDianPu',{},function(data){
+				for(var i = 0 ;i<data.data.length;i++){
+					$('#SuoShuShangDian').append('<option value="'+data.data[i]["DianPuMing"]+'">'+data.data[i]["DianPuMing"]+'</option>')
+				}
+			})
+			var prompt = function(message, style, time) {
+				style = (style === undefined) ? 'alert-success' : style;
+				time = (time === undefined) ? 1200 : time;
+				$('<div>')
+					.appendTo('body')
+					.addClass('alert ' + style)
+					.html(message)
+					.show()
+					.delay(time)
+					.fadeOut();
+			};
+
+			// 成功提示
+			var success_prompt = function(message, time) {
+				prompt(message, 'alert-success', time);
+			};
+
+			// 失败提示
+			var fail_prompt = function(message, time) {
+				prompt(message, 'alert-danger', time);
+			};
+
+			// 提醒
+			var warning_prompt = function(message, time) {
+				prompt(message, 'alert-warning', time);
+			};
+
+			// 信息提示
+			var info_prompt = function(message, time) {
+				prompt(message, 'alert-info', time);
+			};
+
+			$('#YongYouZhe').val(window.localStorage.nowname)
+
+			$('#tijiao').click(function() {
+				var aurl = 'addShangPin'
+				if(isbianji == true) {
+					aurl = 'updateShangPin'
+				} 
+
+				var options = {
+					url: aurl, //同action
+					type: 'post',
+					beforeSend: function(xhr) { //请求之前
+
+					},
+					success: function(data) {
+						$('#addDianPu')[0].reset();
+						$('#guanbi').click()
+						success_prompt(data.msg, 750)
+
+						$("#datatable_xs").dataTable()._fnAjaxUpdate();
+
+					},
+					complete: function(xhr) {
+
+					},
+					error: function(xhr, status, msg) {
+
+					}
+				};
+				$("#addDianPu").ajaxSubmit(options);
+			})
+			$('#ZhaoPaixuan').change(function() {
+
+				var options = {
+					url: 'daoruaction', //同action
+					type: 'post',
+					beforeSend: function(xhr) { //请求之前
+
+					},
+					success: function(data) {
+						// 　　　　　　	alert(data.msg)
+						$('#ZhaoPai').val(data.path)
+					},
+
+					complete: function(xhr) {
+
+					},
+					error: function(xhr, status, msg) {
+
+					}
+				};
+				$("#addDianPu").ajaxSubmit(options);
+			})
+
+			function toujianli(data) {
+				$.post('deleteShangPin', {
+					"id": data.id
+				}, function(data) {
+					success_prompt(data.msg, 750)
+					$("#datatable_xs").dataTable()._fnAjaxUpdate();
+				})
+			}
+			$('#tianjiadianbu').click(function() {
+				isbianji = false
+				$('#tianjiadianbu2').click()
+			})
+			var isbianji = false
+
+			function bianji(data) {
+				$('#tianjiadianbu').click()
+
+	
+				
+				$('#addDianPu input').each(function(i, o) {
+					$(o).val(data[$(o).attr('id')])
+				})
+				$('#ZhaoPai').val(data["TuPian"])
+				isbianji = true
+				// $.post('deleteDianPu',{"id":data.id},function(data){
+				// 	success_prompt(data.msg,750)
+				// 	$("#datatable_xs").dataTable()._fnAjaxUpdate(); 
+				// })
+			}
+
+			function zhuangtai(data) {
+				data.ZhuangTai = (data.ZhuangTai == "禁用" ? "启用" : "禁用")
+				$.post('updateDianPu', data, function(data) {
+					success_prompt(data.msg, 750)
+					$("#datatable_xs").dataTable()._fnAjaxUpdate();
+				})
+			}
+			var str = '商品名、价格、简介、图片、类型、数量、所属商店、操作'
+			var arr = str.split('、')
+			var string = ''
+			var barr = []
+			for(var i in arr) {
+				// <i class='fa fa-arrow-up'></i>
+				if(arr[i] == "操作") {
+					string = string + '<th>' + arr[i] + '</th>'
+					barr.push({
+						"render": function(data, type, row) {
+							var html = "<a href='javascript:void(0);' onclick='toujianli(" + JSON.stringify(row) + ")'  class='up btn btn-default btn-xs'> 删除</a><a href='javascript:void(0);' onclick='bianji(" + JSON.stringify(row) + ")'  class='up btn btn-default btn-xs'> 编辑</a>"
+							return html;
+						}
+					})
+					continue
+				}
+				if(arr[i] == "状态") {
+					string = string + '<th>' + arr[i] + '</th>'
+					barr.push({
+						"render": function(data, type, row) {
+							var html = "<a href='javascript:void(0);' onclick='zhuangtai(" + JSON.stringify(row) + ")'  class='up btn btn-default btn-xs'>" + (row.ZhuangTai == "禁用" ? "禁用" : "启用") + "</a>"
+							return html;
+						}
+					})
+					continue
+				}
+				if(arr[i] == "图片") {
+					string = string + '<th>' + arr[i] + '</th>'
+					barr.push({
+						"render": function(data, type, row) {
+							var html = "<img style='width:60px;height:60px' src='" + row["TuPian"] + "'>"
+							return html;
+						}
+					})
+					continue
+				}
+				string = string + '<th>' + arr[i] + '</th>'
+				barr.push({
+					'data': pinyin.getFullChars(arr[i])
+				})
+			}
+
+			$('#tou').append(string)
+
+			function shengcheng() {
+				//表格生成
+				$('#datatable_xs').DataTable({
+					'language': {
+						"sProcessing": "处理中...",
+						"sLengthMenu": "显示 _MENU_ 项结果",
+						"sZeroRecords": "没有匹配结果",
+						"sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+						"sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+						"sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+						"sInfoPostFix": "",
+						"sSearch": "搜索:",
+						"sUrl": "",
+						"sEmptyTable": "表中数据为空",
+						"sLoadingRecords": "载入中...",
+						"sInfoThousands": ",",
+						"oPaginate": {
+							"sFirst": "首页",
+							"sPrevious": "上页",
+							"sNext": "下页",
+							"sLast": "末页"
+						},
+						"oAria": {
+							"sSortAscending": ": 以升序排列此列",
+							"sSortDescending": ": 以降序排列此列"
+						}
+					},
+					"processing": true,
+					"searching": false,
+					"serverSide": false,
+					"ajax": {
+						"url": "selectAllShangPin",
+					},
+					"columns": barr
+				});
+			}
+			shengcheng()
+		</script>
+	</body>
+
+</html>

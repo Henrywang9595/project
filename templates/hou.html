@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>后台登录</title>
+    <!-- for-mobile-apps -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <!-- //for-mobile-apps -->
+    <link href="../static/hou/css/style.css" rel="stylesheet" type="text/css" media="all" />
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+</head>
+<body>
+    <!-- main -->
+    <div class="main">
+        <h1>
+            商品交易平台</br>商家登录系统
+        </h1>
+        <form>
+            <input type="text" value="用户名" onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = '用户名';}"
+                   required="" id="name">
+            <input type="password" value="Password" onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = '';}"
+                   required="" id="pwd">
+            <input type="button" value="登录" id="denglu">
+            <input type="button" value="注册" id="zhuce" style="margin-top: 15px">
+        </form>
+    </div>
+    <script type="text/javascript">
+        $('#denglu').click(function(){
+$.post("denglu",{name:$('#name').val(),pwd:$('#pwd').val()},function(result){
+                    alert(result.msg)
+                    if(result.msg=='登录成功'){
+                        window.localStorage.nowname = $('#name').val()
+
+                        location.href='main.html'
+                    }
+                })
+        })
+        $('#zhuce').click(function(){
+            $.post("zhuce",{name:$('#name').val(),pwd:$('#pwd').val(),"dengji":'0'},function(result){
+                    alert(result.msg)
+                    if(result.msg=='注册成功'){
+                        location.reload()
+                    }
+                })
+        })
+    </script>
+    
+</body>
+</html>

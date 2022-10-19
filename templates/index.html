@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>系统</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Free HTML5 Template by FreeHTML5.co" />
+	<meta name="keywords" content="free html5, free template, free bootstrap, html5, css3, mobile first, responsive" />
+	
+
+	
+
+	<!-- Facebook and Twitter integration -->
+	<meta property="og:title" content=""/>
+	<meta property="og:image" content=""/>
+	<meta property="og:url" content=""/>
+	<meta property="og:site_name" content=""/>
+	<meta property="og:description" content=""/>
+	<meta name="twitter:title" content="" />
+	<meta name="twitter:image" content="" />
+	<meta name="twitter:url" content="" />
+	<meta name="twitter:card" content="" />
+
+	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+	<link rel="shortcut icon" href="favicon.ico">
+
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+	
+	<link rel="stylesheet" href="../static/login/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../static/login/css/animate.css">
+	<link rel="stylesheet" href="../static/login/css/style.css">
+
+
+	<!-- Modernizr JS -->
+	<script src="../static/login/js/modernizr-2.6.2.min.js"></script>
+	<!-- FOR IE9 below -->
+	<!--[if lt IE 9]>
+	<script src="../static/login/js/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body class="style-2" style="    background-position: 100px 0px;">
+
+	<div class="container">
+		
+		<div class="row">
+			<div class="col-md-4">
+				
+
+				<!-- Start Sign In Form -->
+				<form action="#" class="fh5co-form animate-box" data-animate-effect="fadeIn">
+					<h2>登录</h2>
+					<div class="form-group">
+						<label for="username" class="sr-only">账号</label>
+						<input type="text" class="form-control" id="username" placeholder="账号" autocomplete="off">
+					</div>
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="username" class="sr-only">验证码</label>
+							<input type="text" class="form-control" id="code" placeholder="验证码" autocomplete="off">
+						</div>
+
+						<img src="" class="col-md-6" id="codeImage">
+					</div>
+					<div class="form-group">
+						<label for="password" class="sr-only">密码</label>
+						<input type="password" class="form-control" id="password" placeholder="密码" autocomplete="off">
+					</div>
+					
+					<div class="form-group">
+						<p>没有账号? <a href="regist.html">注册</a> </p>
+					</div>
+					<div class="form-group">
+						<input type="button" value="店家登录" class="btn btn-primary" onclick="denglu()">
+						<input type="button" value="客户登录" class="btn btn-primary" onclick="denglu2()">
+
+					</div>
+				</form>
+				<!-- END Sign In Form -->
+
+			</div>
+		</div>
+		
+	</div>
+	
+	<!-- jQuery -->
+	<script src="../static/login/js/jquery.min.js"></script>
+	<!-- Bootstrap -->
+	<script src="../static/login/js/bootstrap.min.js"></script>
+	<!-- Placeholder -->
+	<script src="../static/login/js/jquery.placeholder.min.js"></script>
+	<!-- Waypoints -->
+	<script src="../static/login/js/jquery.waypoints.min.js"></script>
+	<!-- Main JS -->
+	<script src="../static/login/js/main.js"></script>
+
+	<script type="text/javascript">
+		var tcode = ''
+		function loadImage(){
+			$.post("getYanZhengMa",{},function(result){
+				tcode=result.msg
+				$('#codeImage').attr('src','http://localhost:8000/static/'+result.path)
+			})
+		}
+		loadImage()
+		$('#codeImage').click(function(){
+			loadImage()
+		})
+		function denglu() {
+			if(tcode.toUpperCase()==$('#code').val().toUpperCase()){
+				$.post("denglu",{name:$('#username').val(),pwd:$('#password').val()},function(result){
+					alert(result.msg)
+					if(result.msg=='登录成功'){
+						window.localStorage.nowname = $('#username').val()
+
+						location.href='main.html'
+					}
+				})
+			}else{
+				alert('验证码不正确')
+			}
+			
+
+		}
+		function denglu2() {
+			if(tcode.toUpperCase()==$('#code').val().toUpperCase()){
+				$.post("denglu2",{name:$('#username').val(),pwd:$('#password').val()},function(result){
+					alert(result.msg)
+					if(result.msg=='登录成功'){
+						window.localStorage.nowname = $('#username').val()
+
+						location.href='shouye.html'
+					}
+				})
+			}else{
+				alert('验证码不正确')
+			}
+			
+
+		}
+	</script>
+</body>
+</html>
+
+
+

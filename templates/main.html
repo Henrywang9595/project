@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>系统</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
+
+		<link rel="stylesheet" type="text/css" href="../static/main/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../static/main/css/animate.css">
+		<link rel="stylesheet" type="text/css" href="../static/main/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../static/main/css/bootstrap-select.min.css">
+		<link rel="stylesheet" type="text/css" href="../static/main/css/awesome-bootstrap-checkbox.css">
+		<link rel="stylesheet" type="text/css" href="../static/main/css/select2.css">
+		<link rel="stylesheet" type="text/css" href="../static/main/css/style.css">
+		<link rel="stylesheet" type="text/css" href="../static/main/css/theme.css">
+		<link rel="stylesheet" type="text/css" href="../static/page.css">
+
+		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../static/main/js/Chart.min.js"></script>
+		<script type="text/javascript" src="../static/main/js/bootstrap-select.min.js"></script>
+		<script type="text/javascript" src="../static/main/js/main.js"></script>
+		<script type="text/javascript" src="../static/main/js/index.js"></script>
+		<script type="text/javascript" src="../static/page.js"></script>
+		<script type="text/javascript" src="../static/Convert_Pinyin.js"></script>
+		<script type="text/javascript" src="../static/jquery.form.js"></script>
+		<style type="text/css">
+			#tijiao{
+				display: block;
+				width: 100px;
+				height: 30px;
+				margin-left: auto;
+    margin-right: auto;
+			}
+			* {
+				padding: 0;
+				margin: 0;
+				font-family: "微软雅黑";
+				font-size: 14px;
+			}
+			
+			ul,
+			li {
+				list-style: none;
+			}
+			
+			a {
+				text-decoration: none;
+				color: black;
+			}
+			
+			.box {
+				width: 800px;
+				height: 400px;
+				margin: 20px auto;
+				overflow: hidden;
+				position: relative;
+			}
+			
+			.box-1 ul {}
+			
+			.box-1 ul li {
+				width: 800px;
+				height: 400px;
+				position: relative;
+				overflow: hidden;
+			}
+			
+			.box-1 ul li img {
+				display: block;
+				width: 800px;
+				height: 400px;
+			}
+			
+			.box-1 ul li h2 {
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				height: 40px;
+				width: 300px;
+				background: rgba(125, 125, 120, .4);
+				text-indent: 2em;
+				padding-right: 500px;
+				font-size: 15px;
+				line-height: 40px;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				white-space: nowrap;
+				font-weight: normal;
+				color: ghostwhite
+			}
+			
+			.box-2 {
+				position: absolute;
+				right: 10px;
+				bottom: 14px;
+			}
+			
+			.box-2 ul li {
+				float: left;
+				width: 12px;
+				height: 12px;
+				overflow: hidden;
+				margin: 0 5px;
+				border-radius: 50%;
+				background: rgba(0, 0, 0, 0.5);
+				text-indent: 100px;
+				cursor: pointer;
+			}
+			
+			.box-2 ul .on {
+				background: rgba(255, 255, 255, 0.6);
+			}
+			
+			.box-3 span {
+				position: absolute;
+				color: white;
+				background: rgba(125, 125, 120, .3);
+				width: 50px;
+				height: 80px;
+				top: 50%;
+				font-family: "宋体";
+				line-height: 80px;
+				font-size: 60px;
+				margin-top: -40px;
+				text-align: center;
+				cursor: pointer;
+			}
+			
+			.box-3 .prev {
+				left: 10px;
+			}
+			
+			.box-3 .next {
+				right: 10px;
+			}
+			
+			.box-3 span::selection {
+				background: transparent;
+			}
+			
+			.box-3 span:hover {
+				background: rgba(125, 125, 120, .8);
+			}
+		</style>
+	</head>
+
+	<body class="flat-blue sidebar-collapse">
+		<div class="sidebar">
+			<div class="menu-control toggle-sidebar">
+				<a class="navbar-brand" href="#"><i class="fa fa-bar-chart"></i> 个人信息</a>
+				<i class="fa fa-bars navicon"></i>
+			</div>
+			{% include 'public_left.html' %}
+
+		</div>
+		<div class="content-container wrap">
+			<nav class="navbar navbar-default">
+				<div>
+
+					<!-- Collect the nav links, forms, and other content for toggling -->
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+							<a class="navbar-brand" href="#"><i class="fa fa-bar-chart"></i> 个人信息</a>
+						</div>
+						{% include 'public_selfCenter.html' %}
+
+					</div>
+					<!-- /.navbar-collapse -->
+				</div>
+				<!-- /.container-fluid -->
+			</nav>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-xs-12">
+						<span class="page-title red"><h2>个人信息</h2></span>
+					</div>
+				</div>
+				<div class="box" style="display: none;">
+					<div class="box-1">
+						<ul id="lunbotu">
+							
+						</ul>
+					</div>
+					<div class="box-2">
+						<ul>
+
+						</ul>
+					</div>
+					<div class="box-3">
+						<span class="prev"> < </span>
+						<span class="next"> > </span>
+					</div>
+				</div>
+
+				<div id="showdiv">
+					<div class="row">
+						<form>
+							<div id="neirong">
+
+								<img id="gaitouxiang" src="static/头像.png" style="display: block;width: 100px;height: 100px;border-radius: 50px;margin-left: auto;margin-right: auto;">
+							</div>
+						</form>
+						<!-- <div class="col-xs-4"></div> -->
+						<form action="daoruaction" method="post" enctype="multipart/form-data" id="form" style="display: none">
+							<input type="file" name="icon" id="tx">
+						</form>
+						
+						<!-- <div class="col-xs-4"></div> -->
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<footer class="footer">
+			<span><i class="fa fa-copyright"></i> 系统 </span>
+		</footer>
+		<script type="application/javascript">
+			window.onload = function() {
+				function $(param) {
+					if(arguments[1] == true) {
+						return document.querySelectorAll(param);
+					} else {
+						return document.querySelector(param);
+					}
+				}
+				var $box = $(".box");
+				var $box1 = $(".box-1 ul li", true);
+				var $box2 = $(".box-2 ul");
+				var $box3 = $(".box-3");
+				var $length = $box1.length;
+
+				var str = "";
+				for(var i = 0; i < $length; i++) {
+					if(i == 0) {
+						str += "<li class='on'>" + (i + 1) + "</li>";
+					} else {
+						str += "<li>" + (i + 1) + "</li>";
+					}
+				}
+				$box2.innerHTML = str;
+
+				var current = 0;
+
+				var timer;
+				timer = setInterval(go, 3000);
+
+				function go() {
+					for(var j = 0; j < $length; j++) {
+						$box1[j].style.display = "none";
+						$box2.children[j].className = "";
+					}
+					if($length == current) {
+						current = 0;
+					}
+					$box1[current].style.display = "block";
+					$box2.children[current].className = "on";
+					current++;
+				}
+
+				for(var k = 0; k < $length; k++) {
+					$box1[k].onmouseover = function() {
+						clearInterval(timer);
+					}
+					$box1[k].onmouseout = function() {
+						timer = setInterval(go, 1000);
+					}
+				}
+				for(var p = 0; p < $box3.children.length; p++) {
+					$box3.children[p].onmouseover = function() {
+						clearInterval(timer);
+					};
+					$box3.children[p].onmouseout = function() {
+						timer = setInterval(go, 1000);
+					}
+				}
+
+				for(var u = 0; u < $length; u++) {
+					$box2.children[u].index = u;
+					$box2.children[u].onmouseover = function() {
+						clearInterval(timer);
+						for(var j = 0; j < $length; j++) {
+							$box1[j].style.display = "none";
+							$box2.children[j].className = "";
+						}
+						this.className = "on";
+						$box1[this.index].style.display = "block";
+						current = this.index + 1;
+					}
+					$box2.children[u].onmouseout = function() {
+						timer = setInterval(go, 1000);
+					}
+				}
+
+				$box3.children[0].onclick = function() {
+					back();
+				}
+				$box3.children[1].onclick = function() {
+					go();
+				}
+
+				function back() {
+					for(var j = 0; j < $length; j++) {
+						$box1[j].style.display = "none";
+						$box2.children[j].className = "";
+					}
+					if(current == 0) {
+						current = $length;
+					}
+					$box1[current - 1].style.display = "block";
+					$box2.children[current - 1].className = "on";
+					current--;
+				}
+			}
+
+			$('#gaitouxiang').click(function() {
+				$('#tx').click()
+			})
+			$('#tx').change(function() {
+
+				var options = {
+					url: 'daoruaction', //同action
+					type: 'post',
+					beforeSend: function(xhr) { //请求之前
+
+					},
+					success: function(data) {
+						// 　　　　　　	alert(data.msg)
+						$('#gaitouxiang').attr('src', data.path)
+						$('#TouXiang').val(data.path)
+					},
+
+					complete: function(xhr) {
+
+					},
+					error: function(xhr, status, msg) {
+
+					}
+				};
+				$("#form").ajaxSubmit(options);
+			})
+			var arr = ["账号", '密码', '姓名', '性别', '年龄', '籍贯', '民族', '头像']
+			for(var i = 0; i < arr.length; i++) {
+				var biaoti = arr[i]
+				$('#neirong').append('<div class="form-group col-xs-4">' +
+					'<label for="name">' + biaoti + '</label>' +
+					'<input type="text" class="form-control" id="' + pinyin.getFullChars(biaoti) + '" name="' + pinyin.getFullChars(biaoti) + '" placeholder="请输入' + biaoti + '">' +
+					'</div>')
+
+			}
+			$('#TouXiang').parent().css('display', 'none')
+			$('#neirong').append('<div class="col-xs-12" style="text-align:center"><div class="form-group">' +
+				'<button id="tijiao">修改</button>' +
+				'</div></div>')
+			var tdic = {}
+			$('#tijiao').click(function() {
+				$('input').each(function(i, o) {
+					tdic[$(o).attr('name')] = $(o).val()
+				})
+				$.post('updateYongHu', tdic, function(data) {
+					alert(data.msg)
+				})
+			})
+
+			$('#ZhangHao').attr('disabled', 'disabled')
+			$('#MiMa').attr('type', 'password')
+			var biglist = []
+			var tlist = []
+			$.post("getuserinfor", {
+				name: window.localStorage.nowname
+			}, function(result) {
+				var dic = result.data
+				tdic = dic
+				for(var i in dic) {
+					$('#' + i).val(dic[i])
+				}
+				if($('#TouXiang').val() != '') {
+					$('#gaitouxiang').attr('src', $('#TouXiang').val())
+				}
+			})
+
+			$.get('selectAlllunbotu', {}, function(data) {
+				for(var i = 0; i < data.data.length; i++) {
+					var adic = data.data[i]
+					//
+					$('#lunbotu').append('<li>' +
+						'<img onclick="window.open(\''+adic["JianJie"]+'\')" src="'+adic["JianJie"]+'" alt="'+adic["TuPian"]+'"></img>' +
+						'<h2>'+adic["LianJie"]+'</h2>' +
+						'</li>')
+					//
+					//					$('#index').append('<li>' + (i + 1) + '</li>')
+				}
+			})
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>商品详情</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" type="text/css" href="../static/main/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../static/main/css/animate.css">
+	<link rel="stylesheet" type="text/css" href="../static/main/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="../static/main/css/bootstrap-select.min.css">
+	<link rel="stylesheet" type="text/css" href="../static/main/css/awesome-bootstrap-checkbox.css">
+	<link rel="stylesheet" type="text/css" href="../static/main/css/select2.css">
+	<link rel="stylesheet" type="text/css" href="../static/main/css/style.css">
+	<link rel="stylesheet" type="text/css" href="../static/main/css/theme.css">
+	<link rel="stylesheet" type="text/css" href="../static/page.css">
+
+	<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../static/main/js/Chart.min.js"></script>
+	<script type="text/javascript" src="../static/main/js/bootstrap-select.min.js"></script>
+	<script type="text/javascript" src="../static/main/js/main.js"></script>
+	<script type="text/javascript" src="../static/main/js/index.js"></script>
+	<script type="text/javascript" src="../static/page.js"></script>
+	<script type="text/javascript" src="../static/Convert_Pinyin.js"></script>
+	<script type="text/javascript" src="../static/jquery.form.js"></script>
+	<style type="text/css">
+		.item:hover{
+			background: RGBA(218, 220, 221, 1);
+		}
+		body{
+			padding: 0px!important;
+			background: RGBA(246, 246, 246, 1);
+		}
+		* {
+			padding: 0;
+			margin: 0;
+			font-family: "微软雅黑";
+			font-size: 14px;
+		}
+
+		ul,
+		li {
+			list-style: none;
+		}
+
+		a {
+			text-decoration: none;
+			color: black;
+		}
+
+		.box {
+			width: 100%;
+			height: 400px;
+			margin: 20px auto;
+			overflow: hidden;
+			position: relative;
+		}
+
+		.box-1 ul {}
+
+		.box-1 ul li {
+			width: 100%;
+			height: 400px;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.box-1 ul li img {
+			display: block;
+			width: 100%;
+			height: 400px;
+		}
+
+		.box-1 ul li h2 {
+			position: absolute;
+			left: 0;
+			bottom: 0;
+			height: 40px;
+			width: 300px;
+			background: rgba(125, 125, 120, .4);
+			text-indent: 2em;
+			padding-right: 500px;
+			font-size: 15px;
+			line-height: 40px;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+			font-weight: normal;
+			color: ghostwhite
+		}
+
+		.box-2 {
+			position: absolute;
+			right: 10px;
+			bottom: 14px;
+		}
+
+		.box-2 ul li {
+			float: left;
+			width: 12px;
+			height: 12px;
+			overflow: hidden;
+			margin: 0 5px;
+			border-radius: 50%;
+			background: rgba(0, 0, 0, 0.5);
+			text-indent: 100px;
+			cursor: pointer;
+		}
+
+		.box-2 ul .on {
+			background: rgba(255, 255, 255, 0.6);
+		}
+
+		.box-3 span {
+			position: absolute;
+			color: white;
+			background: rgba(125, 125, 120, .3);
+			width: 50px;
+			height: 80px;
+			top: 50%;
+			font-family: "宋体";
+			line-height: 80px;
+			font-size: 60px;
+			margin-top: -40px;
+			text-align: center;
+			cursor: pointer;
+		}
+
+		.box-3 .prev {
+			left: 10px;
+		}
+
+		.box-3 .next {
+			right: 10px;
+		}
+
+		.box-3 span::selection {
+			background: transparent;
+		}
+
+		.box-3 span:hover {
+			background: rgba(125, 125, 120, .8);
+		}
+	</style>
+</head>
+<body>
+
+	<div class="container-fluid" style="display: none;">
+
+		<div class="box"  style="background: white">
+			<div class="box-1">
+				<ul id="lunbotu">
+
+				</ul>
+			</div>
+			<div class="box-2">
+				<ul>
+
+				</ul>
+			</div>
+			<div class="box-3">
+				<span class="prev"> < </span>
+				<span class="next"> > </span>
+			</div>
+		</div>
+
+		
+	</div>
+
+	<div style="width: 100%;margin-left: auto;margin-right: auto;overflow: hidden;clear: both;padding-bottom: 40px;background: white;" id="dianpulist">
+		{% include 'nav.html' %}
+
+		<p id="name" style="line-height: 40px;background: #FD9626;color:white;;padding-left: 15px">商家列表</p>
+
+	</div>
+
+	<div style="width: 100%;margin-left: auto;margin-right: auto;overflow: hidden;clear: both;padding-bottom: 40px;background: white" id="pingjialist">
+		<p id="name2" style="line-height: 40px;background: #FD9626;color:white;;padding-left: 15px">评价列表</p>
+
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function() {
+			var tdic = {}
+			function $(param) {
+				if(arguments[1] == true) {
+					return document.querySelectorAll(param);
+				} else {
+					return document.querySelector(param);
+				}
+			}
+			var $box = $(".box");
+			var $box1 = $(".box-1 ul li", true);
+			var $box2 = $(".box-2 ul");
+			var $box3 = $(".box-3");
+			var $length = $box1.length;
+
+			var str = "";
+			for(var i = 0; i < $length; i++) {
+				if(i == 0) {
+					str += "<li class='on'>" + (i + 1) + "</li>";
+				} else {
+					str += "<li>" + (i + 1) + "</li>";
+				}
+			}
+			$box2.innerHTML = str;
+
+			var current = 0;
+
+			var timer;
+			timer = setInterval(go, 3000);
+
+			function go() {
+				for(var j = 0; j < $length; j++) {
+					$box1[j].style.display = "none";
+					$box2.children[j].className = "";
+				}
+				if($length == current) {
+					current = 0;
+				}
+				$box1[current].style.display = "block";
+				$box2.children[current].className = "on";
+				current++;
+			}
+
+			for(var k = 0; k < $length; k++) {
+				$box1[k].onmouseover = function() {
+					clearInterval(timer);
+				}
+				$box1[k].onmouseout = function() {
+					timer = setInterval(go, 1000);
+				}
+			}
+			for(var p = 0; p < $box3.children.length; p++) {
+				$box3.children[p].onmouseover = function() {
+					clearInterval(timer);
+				};
+				$box3.children[p].onmouseout = function() {
+					timer = setInterval(go, 1000);
+				}
+			}
+
+			for(var u = 0; u < $length; u++) {
+				$box2.children[u].index = u;
+				$box2.children[u].onmouseover = function() {
+					clearInterval(timer);
+					for(var j = 0; j < $length; j++) {
+						$box1[j].style.display = "none";
+						$box2.children[j].className = "";
+					}
+					this.className = "on";
+					$box1[this.index].style.display = "block";
+					current = this.index + 1;
+				}
+				$box2.children[u].onmouseout = function() {
+					timer = setInterval(go, 1000);
+				}
+			}
+
+			$box3.children[0].onclick = function() {
+				back();
+			}
+			$box3.children[1].onclick = function() {
+				go();
+			}
+
+			function back() {
+				for(var j = 0; j < $length; j++) {
+					$box1[j].style.display = "none";
+					$box2.children[j].className = "";
+				}
+				if(current == 0) {
+					current = $length;
+				}
+				$box1[current - 1].style.display = "block";
+				$box2.children[current - 1].className = "on";
+				current--;
+			}
+		}
+		var dianming = ''
+
+var  bigdic ={}
+		$.get('selectAllDianPu',{},function(data){
+			var list = data.data
+			for(var i in list){
+				var dic = list[i];
+
+				if (i==window.localStorage.getItem('aa')) {
+					
+					$('#name').text('商品详情')
+					dianming=dic["DianPuMing"]
+					$.get('selectAllShangPin',{},function(data){
+						var list = data.data
+						for(var i in list){
+							var dic = list[i];
+
+							if (dic["id"]!=window.localStorage.getItem('bb')) {
+								continue
+							}
+
+							tdic=dic
+
+							$.get('selectAllPingJia',{},function(data2){
+								var arr = data2.data
+								for(var i in arr ){
+									var bdic  = arr[i];
+									// debugger
+									if(bdic["PingJiaShangPin"]==tdic['ShangPinMing']){
+										
+										$('#pingjialist').append('<p style="font-size:18;padding:15px;"> '+bdic["PingJiaRen"]+':<span style="font-size:16"> '+bdic["PingJiaNaRong"]+'</span>【'+bdic["PingJiaShiJian"]+'】</p>')
+									}
+								}
+							})
+							// debugger
+							bigdic=dic
+							$('#dianpulist').append('<div style="margin-right:auto;margin-left:auto;width: 50%;padding: 10px" class="item" id="'+i+'">'+
+								'<div style="">'+
+								'	<img src="'+dic["TuPian"]+'" style="width: 100%;height: 200px">'+
+								'	<p style="line-height: 50px">'+dic["ShangPinMing"]+'<span>【'+dic["LeiXing"]+'】</span><span style="float: right;color: red;">'+dic["JiaGe"]+'￥</span></p>'+
+								'	<p style="">'+dic["JianJie"]+'</p>'+
+								'	<p style="">还剩：'+dic["ShuLiang"]+'件</p>'+
+								'<div><button id="jiaru" style="color: #E5511D;padding:5px 10px;border-color: #F0CAB6;background: #FFE4D0;">加入购物车</button></div>'+
+
+								'</div>'+
+								'</div>')
+						}
+						$('#jiaru').click(function(){
+							if(!window.localStorage.nowname){
+								alert("未登录")
+								return;
+							}
+							if(bigdic["ShuLiang"]==0){
+								alert("缺货中请稍后再试")
+								return;
+							}
+							var nowname = window.localStorage.nowname
+						        // data.ShangPin=str(request.POST['ShangPin'])
+        // data.GouMaiRen=str(request.POST['GouMaiRen'])
+        // data.ShuLiang=str(request.POST['ShuLiang'])
+        tdic['GouMaiShuLiang']=1
+        tdic['GouMaiRen']=nowname
+        $.post('addGouWuChe',tdic,function(data){
+        	alert(data.msg)
+        })
+
+        bigdic["ShuLiang"]=parseInt(bigdic["ShuLiang"])-1
+        $.post('/updateShangPin',bigdic,function(data){
+
+        })
+    })
+
+					})
+				}
+				// 		$('#dianpulist').append('<div style="float: left;width: 25%;padding: 10px" class="item" id="'+i+'">'+
+				// 	'<div style="height: 200px">'+
+				// 	'	<img src="https://ss2.bdstatic.com/6Ot1bjeh1BF3odCf/it/u=191769974,1312808987&fm=74&app=80&f=PNG&size=f121,121?sec=1880279984&t=21704654250b0a057e61ecae54678f0c" style="width: 100%;height: 150px">'+
+				// 	'	<p style="line-height: 50px">'+dic["DianPuMing"]+'<span>【'+dic["leixing"]+'】</span></p>'+
+				// 	'</div>'+
+				// '</div>')
+			}
+					// $('.item').click(function(){
+					// 	window.localStorage.setItem('aa',$(this).attr('id'))
+					// 	// alert(window.localStorage.getItem('aa'))
+					// 	location.href="shangpingliebiao.html"
+					// })
+				})
+		$.get('selectAlllunbotu', {}, function(data) {
+			for(var i = 0; i < data.data.length; i++) {
+				var adic = data.data[i]
+					//
+					$('#lunbotu').append('<li>' +
+						'<img onclick="window.open(\''+adic["JianJie"]+'\')" src="'+adic["TuPian"]+'" alt="'+adic["LianJie"]+'"></img>' +
+						'<h2>'+adic["LianJie"]+'</h2>' +
+						'</li>')
+					//
+					//					$('#index').append('<li>' + (i + 1) + '</li>')
+				}
+			})
+		</script>
+	</body>
+	</html>
